@@ -39,7 +39,14 @@ class Program
           /*──────────────────────────────────╮
           │ Handle your custome requests here │
           ╰──────────────────────────────────*/
-          response.SetStatusCode(405);
+          else if (request.Path == "signUp")
+          {
+            var (username, password) = request.GetBody<(string, string)>();
+
+            var userExists = database.Users.Any(user =>
+              user.Username == username
+            );
+            response.SetStatusCode(405);
 
           database.SaveChanges();
         }
