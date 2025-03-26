@@ -39,17 +39,47 @@ class Program
           /*──────────────────────────────────╮
           │ Handle your custome requests here │
           ╰──────────────────────────────────*/
-          else if (request.Path == "signUp")
+          if (request.Path == "signUp")
           {
             var (username, password) = request.GetBody<(string, string)>();
 
             var userExists = database.Users.Any(user =>
               user.Username == username
             );
-            response.SetStatusCode(405);
+
+            if (!userExists)
+            {
+              var userId = Guid.NewGuid().ToString();
+              database.Users.Add(new User(userId, username, password));
+              response.Send(userId);
+            }
+          }
+          else if (request.Path == "logIn")
+          {
+            var (username, password) = request.GetBody<(string, string)>();
+
+            var user = database.Users.First(
+              user => user.Username == username && user.Password == password
+            );
+
+            var userId = user.Id;
+
+            response.Send(userId);
+          }
+          else if (request.Path == "getUsername")
+          {
+            var userId = request.GetBody<string>();
+
+            var username = database.Users.Find(userId)?.Username;
+
+            response.Send(username);
+          }
+          response.SetStatusCode(405);
 
           database.SaveChanges();
+
         }
+
         catch (Exception exception)
         {
           Log.WriteException(exception);
@@ -59,7 +89,9 @@ class Program
       response.Close();
     }
   }
-}
+ }
+
+
 
 
 class Database() : DbBase("database")
@@ -67,6 +99,7 @@ class Database() : DbBase("database")
   /*──────────────────────────────╮
   │ Add your database tables here │
   ╰──────────────────────────────*/
+  public DbSet<User> Users { get; set; } = default!;
 }
 
 class User(string id, string username, string password)
