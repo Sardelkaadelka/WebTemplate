@@ -6,10 +6,7 @@ let submitButton = document.getElementById("submitButton") as HTMLButtonElement;
 let messageDiv = document.getElementById("messageDiv") as HTMLDivElement;
 
 submitButton.onclick = async function () {
-    let userId = await send("signUp", [
-        usernameInput.value,
-        passwordInput.value,
-    ]) as string | null;
+    let userId = await send("signUp", [usernameInput.value, passwordInput.value,]) as string | null;
 
     if (userId != null) {
         localStorage.setItem("userId", userId);
