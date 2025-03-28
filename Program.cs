@@ -15,7 +15,21 @@ class Program
 
     var database = new Database();
 
-    while (true)
+    if (!database.Quilts.Any())
+    {
+      database.Quilts.Add(new Quilt("Flower", "/website/images/tel_aviv.jpg"));
+      database.Quilts.Add(new Quilt("Feather", "/website/images/tel_aviv.jpg"));
+      database.Quilts.Add(new Quilt("Cat", "/website/images/tel_aviv.jpg"));
+
+
+      database.SaveChanges();
+    }
+      
+
+
+
+
+      while (true)
     {
       (var request, var response) = server.WaitForRequest();
 
@@ -94,17 +108,25 @@ class Program
 
 
 
-class Database() : DbBase("database")
-{
-  /*──────────────────────────────╮
-  │ Add your database tables here │
-  ╰──────────────────────────────*/
-  public DbSet<User> Users { get; set; } = default!;
-}
+  class Database() : DbBase("database")
+  {
+    /*──────────────────────────────╮
+    │ Add your database tables here │
+    ╰──────────────────────────────*/
+    public DbSet<User> Users { get; set; } = default!;
+    public DbSet<Quilt> Quilts { get; set; } = default!;
+  }
 
 class User(string id, string username, string password)
 {
   [Key] public string Id { get; set; } = id;
   public string Username { get; set; } = username;
   public string Password { get; set; } = password;
+}
+
+class Quilt(string name, string image)
+{
+  [Key] public int Id { get; set; } = default!;
+  public string Name { get; set; } = name;
+  public string Image { get; set; } = image;
 }

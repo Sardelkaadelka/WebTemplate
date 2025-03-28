@@ -10,7 +10,8 @@ submitButton.onclick = async function () {
 
     if (userId != null) {
         localStorage.setItem("userId", userId);
-        location.href = "index.html";
+        top!.location.href = "index.html";
+        
     } else {
         messageDiv.innerText = "Username is already exists";
     }

@@ -15,6 +15,7 @@ submitButton.onclick = async function () {
     }
     else {
         localStorage.setItem("userId", id);
-        location.href = "index.html";
+        top!.location.href = "index.html";
+        
     }
 }
