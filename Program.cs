@@ -17,9 +17,12 @@ class Program
 
     if (!database.Quilts.Any())
     {
-      database.Quilts.Add(new Quilt("Flower", "/website/images/tel_aviv.jpg"));
-      database.Quilts.Add(new Quilt("Feather", "/website/images/tel_aviv.jpg"));
-      database.Quilts.Add(new Quilt("Cat", "/website/images/tel_aviv.jpg"));
+       database.Quilts.Add(new Quilt("Flower", "website/pages/pic/bant.png"));
+      // database.Quilts.Add(new Quilt("Feather", "/website/images/tel_aviv.jpg"));
+      //  database.Quilts.Add(new Quilt("Cat", "/website/images/tel_aviv.jpg"));
+
+      database.Users.Add(new User("00000", "Admin", "1234"));
+
 
 
       database.SaveChanges();

@@ -14,7 +14,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 0 20px 0 20px;
-    background-color: rgb(244, 228, 170);
+    background-color: rgb(196, 239, 237);
     font-weight: 700;
 }
 .img-button{
@@ -24,10 +24,12 @@
     border: none;
     background-image: url('pic/bant.png');
     background-size: cover;
+    border-radius: 10px;
+    cursor: pointer;
         
 }
 
 h1{
     font-family: "title";
-    color:rgb(209, 149, 59)
+    color:rgb(65, 195, 193)
 }
