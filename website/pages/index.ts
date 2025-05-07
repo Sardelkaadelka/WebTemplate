@@ -14,7 +14,7 @@ console.log(quilts);
 
 for (let i = 0; i < quilts.length; i++) {
     let a = document.createElement("a");
-    a.href = "city.html?cityId=" + quilts[i].Id;
+    a.href = "quilt.html?quiltId=" + quilts[i].Id;
     quiltsDiv.appendChild(a);
 
     let img = document.createElement("img");

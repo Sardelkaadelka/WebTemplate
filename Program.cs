@@ -17,7 +17,7 @@ class Program
 
     if (!database.Quilts.Any())
     {
-       database.Quilts.Add(new Quilt("Flower", "website/pages/pic/bant.png"));
+       database.Quilts.Add(new Quilt("Flower", "pages/pic/bant.png"));
       // database.Quilts.Add(new Quilt("Feather", "/website/images/tel_aviv.jpg"));
       //  database.Quilts.Add(new Quilt("Cat", "/website/images/tel_aviv.jpg"));
 
@@ -90,6 +90,22 @@ class Program
             var username = database.Users.Find(userId)?.Username;
 
             response.Send(username);
+          }
+          else if (request.Path == "getQuilts")
+          {
+            var quilts = database.Quilts.ToArray();
+
+            response.Send(quilts);
+
+          }
+          else if (request.Path == "addQuilt")
+          {
+            var (title, imageSource) =
+              request.GetBody<(string, string)>();
+
+            var quilt = new Quilt(title, imageSource);
+
+            database.Quilts.Add(quilt);
           }
           response.SetStatusCode(405);
 

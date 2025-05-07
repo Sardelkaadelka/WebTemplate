@@ -5,7 +5,8 @@ let signB = document.getElementById("signB") as HTMLButtonElement;
 let loggedOutDiv = document.getElementById("loggedOutDiv") as HTMLDivElement;
 let loggedInDiv = document.getElementById("loggedInDiv") as HTMLDivElement;
 let logOutButton = document.getElementById("logOutButton") as HTMLButtonElement;
-
+let AdminInDiv = document.getElementById("AdminInDiv") as HTMLDivElement;
+let EditB = document.getElementById("EditB") as HTMLButtonElement;
 let HiDiv = document.getElementById("HiDiv") as HTMLDivElement;
 
 signB.onclick = function () {
@@ -22,6 +23,10 @@ logOutButton.onclick = function logOut () {
 
 }
 
+EditB.onclick = function () {
+    top!.location.href="AddQuilt.html"
+}
+
 if (userId != null) {
     let username = await send("getUsername", userId) as string;
     HiDiv.innerText = "Welcome, " + username + "!";
@@ -31,6 +36,10 @@ if (userId != null) {
     loggedOutDiv.classList.remove("hidden");
 }
 
+if (userId == "00000" && userId != null) {
+    AdminInDiv.classList.remove("hidden");
+    
+}
 
 
 
