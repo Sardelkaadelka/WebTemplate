@@ -17,7 +17,7 @@ class Program
 
     if (!database.Quilts.Any())
     {
-       database.Quilts.Add(new Quilt("Flower", "pages/pic/bant.png"));
+      database.Quilts.Add(new Quilt("Flower", "website/pages/pic/bant.png","5"));
       // database.Quilts.Add(new Quilt("Feather", "/website/images/tel_aviv.jpg"));
       //  database.Quilts.Add(new Quilt("Cat", "/website/images/tel_aviv.jpg"));
 
@@ -27,12 +27,12 @@ class Program
 
       database.SaveChanges();
     }
-      
 
 
 
 
-      while (true)
+
+    while (true)
     {
       (var request, var response) = server.WaitForRequest();
 
@@ -100,14 +100,17 @@ class Program
           }
           else if (request.Path == "addQuilt")
           {
-            var (title, imageSource) =
-              request.GetBody<(string, string)>();
+            var (title, imageSource,price) =
+              request.GetBody<(string, string,string)>();
 
-            var quilt = new Quilt(title, imageSource);
+            var quilt = new Quilt(title, imageSource,price);
 
             database.Quilts.Add(quilt);
           }
-          response.SetStatusCode(405);
+          else
+          {
+            response.SetStatusCode(405);
+          }
 
           database.SaveChanges();
 
@@ -122,19 +125,19 @@ class Program
       response.Close();
     }
   }
- }
+}
 
 
 
 
-  class Database() : DbBase("database")
-  {
-    /*──────────────────────────────╮
-    │ Add your database tables here │
-    ╰──────────────────────────────*/
-    public DbSet<User> Users { get; set; } = default!;
-    public DbSet<Quilt> Quilts { get; set; } = default!;
-  }
+class Database() : DbBase("database")
+{
+  /*──────────────────────────────╮
+  │ Add your database tables here │
+  ╰──────────────────────────────*/
+  public DbSet<User> Users { get; set; } = default!;
+  public DbSet<Quilt> Quilts { get; set; } = default!;
+}
 
 class User(string id, string username, string password)
 {
@@ -143,9 +146,11 @@ class User(string id, string username, string password)
   public string Password { get; set; } = password;
 }
 
-class Quilt(string name, string image)
+class Quilt(string name, string image, string price)
 {
   [Key] public int Id { get; set; } = default!;
   public string Name { get; set; } = name;
   public string Image { get; set; } = image;
+
+  public string Price { get; set; } = price;
 }

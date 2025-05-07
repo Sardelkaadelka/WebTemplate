@@ -8,6 +8,7 @@ let logOutButton = document.getElementById("logOutButton") as HTMLButtonElement;
 let AdminInDiv = document.getElementById("AdminInDiv") as HTMLDivElement;
 let EditB = document.getElementById("EditB") as HTMLButtonElement;
 let HiDiv = document.getElementById("HiDiv") as HTMLDivElement;
+let CartB = document.getElementById("CartB") as HTMLButtonElement;
 
 signB.onclick = function () {
     location.href = "signUp.html";
@@ -20,6 +21,11 @@ let userId = localStorage.getItem("userId");
 logOutButton.onclick = function logOut () {
     localStorage.removeItem("userId");
     top!.location.href = "index.html";
+
+}
+CartB.onclick = function () {
+    
+    top!.location.href = "Cart.html";
 
 }
 

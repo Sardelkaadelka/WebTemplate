@@ -2,7 +2,8 @@ import { send } from "../utilities";
 
 let titleInput = document.getElementById("titleInput") as HTMLInputElement;
 let imageSourceInput = document.getElementById("imageSourceInput") as HTMLInputElement;
-let addB = document.getElementById("addButton") as HTMLButtonElement;
+let priceInput = document.getElementById("priceInput") as HTMLInputElement;
+let addB = document.getElementById("addB") as HTMLButtonElement;
 
 addB.onclick = async function () {
     await send(
@@ -10,7 +11,7 @@ addB.onclick = async function () {
         [
             titleInput.value,
             imageSourceInput.value,
-            localStorage.getItem("userId"),
+            priceInput.value,
         ]
     );
 
