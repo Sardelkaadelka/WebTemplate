@@ -1,8 +1,11 @@
-.QuiltD{
-/* background: url('website/pages/pic/rushki.png') no-repeat center; */
-background-color: blueviolet;
+.QuiltsD{
+ background: url('website/pages/pic/rushki.png') no-repeat center; 
     background-size: contain;
     padding: 40px;
     /* отступы внутри рамки */
     display: inline-block;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* background-color: blueviolet; */
 }

@@ -24,4 +24,17 @@ for (let i = 0; i < quilts.length; i++) {
     let div = document.createElement("div");
     div.innerText = quilts[i].Name;
     a.appendChild(div);
+
+    let buttonAdd = document.createElement("buttonAdd");
+    buttonAdd.innerText = "Add";
+    a.appendChild(buttonAdd);
+
+    buttonAdd.onclick = function () {
+
+    }
+
+    
+
 }
+
+
