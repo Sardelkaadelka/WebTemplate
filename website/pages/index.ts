@@ -4,7 +4,16 @@ export type Quilt = {
     Id: number,
     Name: string,
     Image: string,
+    Price:string,
 };
+
+export type User = {
+    Id: string,
+    Username: string,
+    Password: string,
+};
+
+let UserId = localStorage.getItem("UserId");
 
 let quiltsDiv = document.querySelector("#quiltsDiv") as HTMLDivElement;
 
@@ -13,26 +22,34 @@ let quilts = await send("getQuilts", []) as Quilt[];
 console.log(quilts);
 
 for (let i = 0; i < quilts.length; i++) {
-    let a = document.createElement("a");
-    a.href = "quilt.html?quiltId=" + quilts[i].Id;
-    quiltsDiv.appendChild(a);
+    let quiltDiv = document.createElement("div");
+    // a.href = "quilt.html?quiltId=" + quilts[i].Id;
+    quiltsDiv.appendChild(quiltDiv);
 
     let img = document.createElement("img");
     img.src = quilts[i].Image;
-    a.appendChild(img);
+    quiltDiv.appendChild(img);
 
     let div = document.createElement("div");
     div.innerText = quilts[i].Name;
-    a.appendChild(div);
+    quiltDiv.appendChild(div);
 
-    let buttonAdd = document.createElement("buttonAdd");
+    let pric = document.createElement("div");
+    div.innerText = quilts[i].Price;
+    quiltDiv.appendChild(pric);
+
+    let buttonAdd = document.createElement("button");
     buttonAdd.innerText = "Add";
-    a.appendChild(buttonAdd);
+    quiltDiv.appendChild(buttonAdd);
 
-    buttonAdd.onclick = function () {
+    for (let i = 0; i < 3; i++) {
+        buttonAdd.onclick = function () {
+            if (buttonAdd) {
+                send("addtocart", [i, UserId]);
+            }
+        }
 
     }
-
     
 
 }

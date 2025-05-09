@@ -6,6 +6,8 @@ class Program
 {
   static void Main()
   {
+    User[] users = [];
+    
     int port = 5000;
 
     var server = new Server(port);
@@ -100,12 +102,16 @@ class Program
           }
           else if (request.Path == "addQuilt")
           {
-            var (title, imageSource,price) =
-              request.GetBody<(string, string,string)>();
+            var (title, imageSource, price) =
+              request.GetBody<(string, string, string)>();
 
-            var quilt = new Quilt(title, imageSource,price);
+            var quilt = new Quilt(title, imageSource, price);
 
             database.Quilts.Add(quilt);
+          }
+          else if(request.Path=="addtocart")
+          {
+            
           }
           else
           {
@@ -151,6 +157,5 @@ class Quilt(string name, string image, string price)
   [Key] public int Id { get; set; } = default!;
   public string Name { get; set; } = name;
   public string Image { get; set; } = image;
-
   public string Price { get; set; } = price;
 }

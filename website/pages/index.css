@@ -2,10 +2,12 @@
  background: url('website/pages/pic/rushki.png') no-repeat center; 
     background-size: contain;
     padding: 40px;
+    width: 300px;
+    height: 300px;
     /* отступы внутри рамки */
     display: inline-block;
     display: flex;
     flex-direction: column;
     gap: 20px;
-    /* background-color: blueviolet; */
+    background-color: rgb(178, 227, 245); 
 }
