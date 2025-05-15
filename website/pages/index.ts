@@ -21,6 +21,8 @@ let quilts = await send("getQuilts", []) as Quilt[];
 
 console.log(quilts);
 
+let addToCartButtons = document.querySelectorAll(".add-to-cart") as NodeListOf<HTMLButtonElement>;
+
 for (let i = 0; i < quilts.length; i++) {
     let quiltDiv = document.createElement("div");
     // a.href = "quilt.html?quiltId=" + quilts[i].Id;
@@ -41,15 +43,15 @@ for (let i = 0; i < quilts.length; i++) {
     let buttonAdd = document.createElement("button");
     buttonAdd.innerText = "Add";
     quiltDiv.appendChild(buttonAdd);
+}
 
+    
+    
     for (let i = 0; i < 3; i++) {
-        buttonAdd.onclick = function () {
-            if (buttonAdd) {
-                send("addtocart", [i, UserId]);
-            }
+        addToCartButtons[i].onclick = function () {
+            if (addToCartButtons)
+                send("addtocart", [i, UserId])
         }
-
-    }
     
 
 }

@@ -6,8 +6,6 @@ class Program
 {
   static void Main()
   {
-    User[] users = [];
-    
     int port = 5000;
 
     var server = new Server(port);
