@@ -157,3 +157,10 @@ class Quilt(string name, string image, string price)
   public string Image { get; set; } = image;
   public string Price { get; set; } = price;
 }
+
+class WishProduct(string productId, string userId)
+{
+  [Key] public int Id { get; set; } = default!;
+  public string ProductId { get; set; } = productId;
+  public string UserId { get; set; } = userId;
+}
