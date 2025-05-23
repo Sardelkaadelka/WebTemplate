@@ -107,9 +107,22 @@ class Program
 
             database.Quilts.Add(quilt);
           }
-          else if(request.Path=="addtocart")
+          else if (request.Path == "addtocart")
           {
-            
+            var (productId, userId) =
+              request.GetBody<(int, string)>();
+
+            var wishproduct = new WishProduct(productId, userId);
+
+            database.WishProducts.Add(wishproduct);
+          }
+
+          else if (request.Path == "getCart")
+          {
+            var wishproducts = database.WishProducts.ToArray();
+
+            response.Send(wishproducts);
+
           }
           else
           {
@@ -141,6 +154,8 @@ class Database() : DbBase("database")
   ╰──────────────────────────────*/
   public DbSet<User> Users { get; set; } = default!;
   public DbSet<Quilt> Quilts { get; set; } = default!;
+
+  public DbSet<WishProduct> WishProducts { get; set; } = default!;
 }
 
 class User(string id, string username, string password)
@@ -158,9 +173,13 @@ class Quilt(string name, string image, string price)
   public string Price { get; set; } = price;
 }
 
-class WishProduct(string productId, string userId)
+class WishProduct(int productId, string userId)
 {
   [Key] public int Id { get; set; } = default!;
-  public string ProductId { get; set; } = productId;
+  public int ProductId { get; set; } = productId;
+  [ForeignKey("ProductId")] public Quilt Quilt { get; set; } = default!;
   public string UserId { get; set; } = userId;
+  [ForeignKey("UserId")] public User User { get; set; } = default!;
+
+  
 }

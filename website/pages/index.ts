@@ -47,7 +47,7 @@ for (let i = 0; i < quilts.length; i++) {
 
     
     
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < quilts.length; i++) {
         addToCartButtons[i].onclick = function () {
             if (addToCartButtons)
                 send("addtocart", [i, UserId])
