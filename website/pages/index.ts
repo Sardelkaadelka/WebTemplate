@@ -4,7 +4,7 @@ export type Quilt = {
     Id: number,
     Name: string,
     Image: string,
-    Price:string,
+    Price: string,
 };
 
 export type User = {
@@ -13,7 +13,7 @@ export type User = {
     Password: string,
 };
 
-let UserId = localStorage.getItem("UserId");
+let UserId = localStorage.getItem("userId");
 
 let quiltsDiv = document.querySelector("#quiltsDiv") as HTMLDivElement;
 
@@ -21,7 +21,7 @@ let quilts = await send("getQuilts", []) as Quilt[];
 
 console.log(quilts);
 
-let addToCartButtons = document.querySelectorAll(".add-to-cart") as NodeListOf<HTMLButtonElement>;
+// let addToCartButtons = document.querySelectorAll(".add-to-cart") as NodeListOf<HTMLButtonElement>;
 
 for (let i = 0; i < quilts.length; i++) {
     let quiltDiv = document.createElement("div");
@@ -42,18 +42,11 @@ for (let i = 0; i < quilts.length; i++) {
 
     let buttonAdd = document.createElement("button");
     buttonAdd.innerText = "Add";
+    buttonAdd.onclick = function () {
+        console.log("add", quilts[i].Id, UserId);
+        send("addtocart", [quilts[i].Id, UserId]);
+    }
     quiltDiv.appendChild(buttonAdd);
-}
-
-    
-    
-    for (let i = 0; i < quilts.length; i++) {
-        addToCartButtons[i].onclick = function () {
-            if (addToCartButtons)
-                send("addtocart", [i, UserId])
-        }
-    
-
 }
 
 

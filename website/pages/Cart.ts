@@ -6,8 +6,9 @@ export type WishProduct = {
     UserId: string,
 };
 let quiltsDiv = document.querySelector("#quiltsDiv") as HTMLDivElement;
-
-let wishproducts = await send("getCart", []) as WishProduct[];
+let userId = localStorage.getItem("userId");
+let wishproducts = await send("getCart", userId) as WishProduct[];
+console.log(wishproducts);
 
 for (let i = 0; i < wishproducts.length; i++) {
     let quiltDiv = document.createElement("div");
@@ -15,7 +16,7 @@ for (let i = 0; i < wishproducts.length; i++) {
     quiltsDiv.appendChild(quiltDiv);
 
     let Cproduct = document.createElement("div");
-    Cproduct.innerText = wishproducts[i].ProductId;
+    Cproduct.innerText = wishproducts[i].ProductId.toString();
     quiltDiv.appendChild(Cproduct);
 
     let buttonMinus = document.createElement("button");

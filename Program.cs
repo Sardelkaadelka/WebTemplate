@@ -17,7 +17,7 @@ class Program
 
     if (!database.Quilts.Any())
     {
-      database.Quilts.Add(new Quilt("Flower", "website/pages/pic/bant.png","5"));
+      database.Quilts.Add(new Quilt("Flower", "/website/pages/pic/bant.png","5"));
       // database.Quilts.Add(new Quilt("Feather", "/website/images/tel_aviv.jpg"));
       //  database.Quilts.Add(new Quilt("Cat", "/website/images/tel_aviv.jpg"));
 
@@ -114,14 +114,21 @@ class Program
 
             var wishproduct = new WishProduct(productId, userId);
 
+            
+
+
             database.WishProducts.Add(wishproduct);
           }
 
           else if (request.Path == "getCart")
           {
             var wishproducts = database.WishProducts.ToArray();
+            var userId = request.GetBody<string>();
 
-            response.Send(wishproducts);
+            var userQuilts = database.WishProducts.Where(userQuilt => userQuilt.UserId == userId)
+              .ToArray();
+
+            response.Send(userQuilts);
 
           }
           else
