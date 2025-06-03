@@ -21,6 +21,11 @@ for (let i = 0; i < wishproducts.length; i++) {
 
     let buttonMinus = document.createElement("button");
     buttonMinus.innerText = "remove";
+    buttonMinus.onclick = function () {
+            console.log("remove", wishproducts[i].ProductId, userId);
+            send("removeFromCart", [wishproducts[i].ProductId, userId]);
+        }
+    
     quiltDiv.appendChild(buttonMinus);
 }
 

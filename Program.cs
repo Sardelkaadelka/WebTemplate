@@ -17,11 +17,12 @@ class Program
 
     if (!database.Quilts.Any())
     {
-      database.Quilts.Add(new Quilt("Flower", "/website/pages/pic/bant.png","5"));
+      database.Quilts.Add(new Quilt("Flower", "/website/pages/pic/bant.png",5,1));
       // database.Quilts.Add(new Quilt("Feather", "/website/images/tel_aviv.jpg"));
       //  database.Quilts.Add(new Quilt("Cat", "/website/images/tel_aviv.jpg"));
 
       database.Users.Add(new User("00000", "Admin", "1234"));
+       database.Groups.Add(new Group("nature"));
 
 
 
@@ -100,10 +101,10 @@ class Program
           }
           else if (request.Path == "addQuilt")
           {
-            var (title, imageSource, price) =
-              request.GetBody<(string, string, string)>();
+            var (title, imageSource, price, groupId) =
+              request.GetBody<(string, string, int, int)>();
 
-            var quilt = new Quilt(title, imageSource, price);
+            var quilt = new Quilt(title, imageSource, price, groupId);
 
             database.Quilts.Add(quilt);
           }
@@ -114,11 +115,19 @@ class Program
 
             var wishproduct = new WishProduct(productId, userId);
 
-            
-
-
             database.WishProducts.Add(wishproduct);
           }
+          else if (request.Path == "removeFromCart")
+          {
+            var (productId, userId) = request.GetBody<(int, string)>();
+
+            var wishproduct = database.WishProducts.First(
+              wishproduct => wishproduct.UserId == userId && wishproduct.ProductId == productId
+            );
+
+            database.WishProducts.Remove(wishproduct);
+          }
+        
 
           else if (request.Path == "getCart")
           {
@@ -129,8 +138,25 @@ class Program
               .ToArray();
 
             response.Send(userQuilts);
-
           }
+          else if (request.Path == "CreateGroup")
+          {
+            var name =
+            request.GetBody<string>();
+
+            var group = new Group(name);
+
+            database.Groups.Add(group);
+          }
+
+          else if (request.Path == "getGroups")
+          {
+            var groups = database.Groups.ToArray();
+
+            response.Send(groups);
+          }
+
+
           else
           {
             response.SetStatusCode(405);
@@ -162,6 +188,8 @@ class Database() : DbBase("database")
   public DbSet<User> Users { get; set; } = default!;
   public DbSet<Quilt> Quilts { get; set; } = default!;
 
+   public DbSet<Group> Groups { get; set; } = default!;
+
   public DbSet<WishProduct> WishProducts { get; set; } = default!;
 }
 
@@ -172,13 +200,15 @@ class User(string id, string username, string password)
   public string Password { get; set; } = password;
 }
 
-class Quilt(string name, string image, string price)
+class Quilt(string name, string image, int price, int groupId )
 {
   [Key] public int Id { get; set; } = default!;
   public string Name { get; set; } = name;
   public string Image { get; set; } = image;
-  public string Price { get; set; } = price;
-}
+  public int Price { get; set; } = price;
+  public int GroupId { get; set; } = groupId;
+[ForeignKey("GroupId")] public Group Group { get; set; } = default!;
+ }
 
 class WishProduct(int productId, string userId)
 {
@@ -188,5 +218,11 @@ class WishProduct(int productId, string userId)
   public string UserId { get; set; } = userId;
   [ForeignKey("UserId")] public User User { get; set; } = default!;
 
-  
+
 }
+
+ class Group(string name)
+ {
+   [Key] public int Id { get; set; } = default!;
+  public string Name { get; set; } = name;
+ }
