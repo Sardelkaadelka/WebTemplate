@@ -45,7 +45,7 @@ for (let i = 0; i < quilts.length; i++) {
     quiltDiv.appendChild(img);
 
     let pric = document.createElement("div");
-    div.innerText = quilts[i].Price.toString();
+    pric.innerText = quilts[i].Price.toString();
     quiltDiv.appendChild(pric);
 
     let buttonAdd = document.createElement("button");
@@ -57,13 +57,13 @@ for (let i = 0; i < quilts.length; i++) {
     quiltDiv.appendChild(buttonAdd);
 }
 
-// let groups = await send("getGroups", []) as Group[];
+let groups = await send("getGroups", []) as Group[];
 
-// for (let group of groups) {
-//     let option = document.createElement("option");
-//     option.value = group.Id.toString();
-//     option.innerText = group.Name;
-//     ThemeSelect.appendChild(option);
-// }
+for (let group of groups) {
+    let option = document.createElement("option");
+    option.value = group.Id.toString();
+    option.innerText = group.Name;
+    ThemeSelect.appendChild(option);
+}
 
 

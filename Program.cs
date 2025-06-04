@@ -121,6 +121,8 @@ class Program
           {
             var (productId, userId) = request.GetBody<(int, string)>();
 
+            Console.WriteLine(productId + ", " + userId);
+
             var wishproduct = database.WishProducts.First(
               wishproduct => wishproduct.UserId == userId && wishproduct.ProductId == productId
             );
