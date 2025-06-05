@@ -101,22 +101,36 @@ class Program
           }
           else if (request.Path == "addQuilt")
           {
-            var (title, imageSource, price, groupName) =
-              request.GetBody<(string, string, int, string)>();
+              var (title, imageSource, price, groupName) = request.GetBody<(string, string, int, string)>();
 
-            int? groupId = database.Groups.FirstOrDefault(g => g.Name == groupName)?.Id;
+              if (string.IsNullOrWhiteSpace(groupName))
+              {
+                  response.SetStatusCode(400);
+                  response.Send("Group name is empty");
+                  return;
+              }
 
-            if (groupId == null)
-            {
-              var group = new Group(groupName);
+              
+              var existingGroup = database.Groups.FirstOrDefault(g => g.Name == groupName);
+              int groupId;
 
-              groupId = database.Groups.Add(group).Entity.Id;
-              database.SaveChanges();
-            }
+              if (existingGroup == null)
+              {
+                  
+                  var newGroup = new Group(groupName);
+                  var entity = database.Groups.Add(newGroup);
+                  database.SaveChanges(); 
+                  groupId = entity.Entity.Id;
+              }
+              else
+              {
+                  groupId = existingGroup.Id;
+              }
 
-            var quilt = new Quilt(title, imageSource, price, (int)groupId);
-
-            database.Quilts.Add(quilt);
+              
+              var quilt = new Quilt(title, imageSource, price, groupId);
+              database.Quilts.Add(quilt);
+              database.SaveChanges(); 
           }
           else if (request.Path == "addtocart")
           {
@@ -159,6 +173,14 @@ class Program
 
             response.Send(groups);
           }
+
+          else if (request.Path == "getQuiltsByGroup")
+          {
+            int groupId = request.GetBody<int>();
+            var filtered = database.Quilts.Where(q => q.GroupId == groupId).ToArray();
+            response.Send(filtered);
+          }
+
 
 
           else
