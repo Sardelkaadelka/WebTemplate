@@ -13,7 +13,7 @@ addB.onclick = async function () {
             titleInput.value,
             imageSourceInput.value,
             parseInt(priceInput.value),
-            parseInt(groupInput.value),
+            groupInput.value,
 
         ]
     );

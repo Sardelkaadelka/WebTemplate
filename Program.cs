@@ -17,12 +17,12 @@ class Program
 
     if (!database.Quilts.Any())
     {
-      database.Quilts.Add(new Quilt("Flower", "/website/pages/pic/bant.png",5,1));
+      database.Quilts.Add(new Quilt("Flower", "/website/pages/pic/bant.png", 5, 1));
       // database.Quilts.Add(new Quilt("Feather", "/website/images/tel_aviv.jpg"));
       //  database.Quilts.Add(new Quilt("Cat", "/website/images/tel_aviv.jpg"));
 
       database.Users.Add(new User("00000", "Admin", "1234"));
-       database.Groups.Add(new Group("nature"));
+      database.Groups.Add(new Group("nature"));
 
 
 
@@ -101,10 +101,20 @@ class Program
           }
           else if (request.Path == "addQuilt")
           {
-            var (title, imageSource, price, groupId) =
-              request.GetBody<(string, string, int, int)>();
+            var (title, imageSource, price, groupName) =
+              request.GetBody<(string, string, int, string)>();
 
-            var quilt = new Quilt(title, imageSource, price, groupId);
+            int? groupId = database.Groups.FirstOrDefault(g => g.Name == groupName)?.Id;
+
+            if (groupId == null)
+            {
+              var group = new Group(groupName);
+
+              groupId = database.Groups.Add(group).Entity.Id;
+              database.SaveChanges();
+            }
+
+            var quilt = new Quilt(title, imageSource, price, (int)groupId);
 
             database.Quilts.Add(quilt);
           }
@@ -129,7 +139,7 @@ class Program
 
             database.WishProducts.Remove(wishproduct);
           }
-        
+
 
           else if (request.Path == "getCart")
           {
@@ -141,15 +151,7 @@ class Program
 
             response.Send(userQuilts);
           }
-          else if (request.Path == "CreateGroup")
-          {
-            var name =
-            request.GetBody<string>();
 
-            var group = new Group(name);
-
-            database.Groups.Add(group);
-          }
 
           else if (request.Path == "getGroups")
           {
@@ -190,7 +192,7 @@ class Database() : DbBase("database")
   public DbSet<User> Users { get; set; } = default!;
   public DbSet<Quilt> Quilts { get; set; } = default!;
 
-   public DbSet<Group> Groups { get; set; } = default!;
+  public DbSet<Group> Groups { get; set; } = default!;
 
   public DbSet<WishProduct> WishProducts { get; set; } = default!;
 }
@@ -202,15 +204,15 @@ class User(string id, string username, string password)
   public string Password { get; set; } = password;
 }
 
-class Quilt(string name, string image, int price, int groupId )
+class Quilt(string name, string image, int price, int groupId)
 {
   [Key] public int Id { get; set; } = default!;
   public string Name { get; set; } = name;
   public string Image { get; set; } = image;
   public int Price { get; set; } = price;
   public int GroupId { get; set; } = groupId;
-[ForeignKey("GroupId")] public Group Group { get; set; } = default!;
- }
+  [ForeignKey("GroupId")] public Group Group { get; set; } = default!;
+}
 
 class WishProduct(int productId, string userId)
 {
@@ -223,8 +225,8 @@ class WishProduct(int productId, string userId)
 
 }
 
- class Group(string name)
- {
-   [Key] public int Id { get; set; } = default!;
+class Group(string name)
+{
+  [Key] public int Id { get; set; } = default!;
   public string Name { get; set; } = name;
- }
+}
