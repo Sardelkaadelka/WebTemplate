@@ -27,6 +27,15 @@
     border-radius: 10px;
     cursor: pointer;
     display: inline-block;
+    
+        
+}
+.Brow{
+    display: flex;
+            
+        gap: 10px;
+        
+        justify-content: start;
         
 }
 
