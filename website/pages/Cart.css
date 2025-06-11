@@ -1,0 +1,25 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #eaf6fb;
+    /* нежно-голубой фон страницы */
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 900px;
+    margin: 40px auto;
+    background: #ffffff;
+    /* белый фон контейнера */
+    padding: 30px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    border: 1px solid #cde7f2;
+}
+
+h2 {
+    text-align: center;
+    color: #2b5d77;
+    /* тёмно-голубой текст */
+}
+
